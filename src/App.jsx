@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// IMPORTING THE IMAGE FROM ASSETS
-// This assumes App.jsx is in 'src/' and the image is in 'src/assets/'
+
 import quizImage from "./assets/quiz.webp"; 
 
 function App() {
@@ -8,19 +7,17 @@ function App() {
   const [isHovered, setIsHovered] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
-  // Function to move the "No" button to a random spot
+ 
   const moveButton = () => {
     if (!isHovered) setIsHovered(true);
 
-    // Calculate random coordinates within the viewport
-    // We subtract 150px to ensure it stays fully on screen
     const randomX = Math.floor(Math.random() * (window.innerWidth - 150));
     const randomY = Math.floor(Math.random() * (window.innerHeight - 150));
 
     setNoPosition({ top: `${randomY}px`, left: `${randomX}px` });
   };
 
-  // If they click Yes
+
   const handleYesClick = () => {
     setAccepted(true);
   };
@@ -28,7 +25,7 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-pink-100 overflow-hidden relative selection:bg-pink-300">
       {accepted ? (
-        // SUCCESS STATE (After clicking Yes)
+       
         <div className="text-center animate-bounce">
           <img
             src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif"
@@ -43,10 +40,10 @@ function App() {
           </p>
         </div>
       ) : (
-        // QUESTION STATE (Start Here)
+       
         <div className="text-center px-4">
           <div className="mb-8 flex flex-col items-center">
-            {/* USING THE IMPORTED IMAGE HERE */}
+            
             <img
               src={quizImage}
               alt="Cute Bear Asking"
@@ -58,7 +55,7 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-6 justify-center items-center w-full">
-            {/* THE YES BUTTON */}
+           
             <button
               onClick={handleYesClick}
               className="px-8 py-4 bg-green-500 text-white font-bold text-2xl rounded-full shadow-xl hover:bg-green-600 hover:scale-110 transition-transform duration-200 z-10 cursor-pointer"
@@ -66,10 +63,10 @@ function App() {
               YES ❤
             </button>
 
-            {/* THE RUNAWAY NO BUTTON */}
+            
             <button
-              onMouseEnter={moveButton} // Moves on mouse hover (Desktop)
-              onClick={moveButton} // Moves on tap (Mobile)
+              onMouseEnter={moveButton} 
+              onClick={moveButton} 
               style={
                 isHovered
                   ? {
