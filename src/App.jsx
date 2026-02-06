@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import quizImage from "./assets/quiz.webp";
 
 function App() {
   const [noPosition, setNoPosition] = useState({ top: "50%", left: "50%" });
   const [isHovered, setIsHovered] = useState(false);
   const [accepted, setAccepted] = useState(false);
-  
   const [secretCode, setSecretCode] = useState(null);
+
+  // --- NEW LOGIC START ---
+  const [recipientName, setRecipientName] = useState("");
+
+  useEffect(() => {
+    // This checks the URL for ?name=Hellen
+    const queryParams = new URLSearchParams(window.location.search);
+    const nameFromUrl = queryParams.get("name");
+    
+    // If a name is found, save it. Otherwise, leave it empty.
+    if (nameFromUrl) {
+      setRecipientName(nameFromUrl);
+    }
+  }, []);
+  // --- NEW LOGIC END ---
 
   const codes = [
     "VALENTINE-CONFIRMED-2026",
@@ -37,7 +51,6 @@ function App() {
       {accepted ? (
         <>
           {/* BOUNCING CONTENT (Bears & Text) */}
-          {/* Note: Added pb-40 to make sure the bouncing text doesn't hit the button */}
           <div className="text-center animate-bounce flex flex-col items-center max-w-lg px-4 pb-40">
             <img
               src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif"
@@ -52,7 +65,7 @@ function App() {
             </p>
           </div>
 
-          {/* STATIC FIXED BUTTON (Outside the bounce loop) */}
+          {/* STATIC FIXED BUTTON */}
           <div className="fixed bottom-10 left-0 right-0 flex justify-center px-4 z-50">
             {!secretCode ? (
               <button
@@ -78,15 +91,19 @@ function App() {
         </>
       ) : (
         <div className="text-center px-4">
-          {/* Question Page Logic Remains Same */}
           <div className="mb-8 flex flex-col items-center">
             <img
               src={quizImage}
               alt="Cute Bear Asking"
               className="w-56 h-56 object-contain mb-4 drop-shadow-md mix-blend-multiply"
             />
+            
+            {/* UPDATED: Displays Name if present */}
             <h1 className="text-4xl md:text-6xl font-extrabold text-red-500 tracking-wide drop-shadow-sm leading-tight">
-              Will you be my Valentine?
+              Will you be my Valentine{recipientName ? "," : "?"} <br />
+              {recipientName && (
+                <span className="text-purple-600">{recipientName}?</span>
+              )}
             </h1>
           </div>
 
